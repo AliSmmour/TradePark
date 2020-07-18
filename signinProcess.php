@@ -1,4 +1,5 @@
 <?php
+session_start();
 $dsn = 'mysql:host=localhost;dbname=tradepark';
 $user = 'root';
 $pass = '';
@@ -15,15 +16,10 @@ catch(PDOException $e) {
     echo 'Failed To Connect' . $e->getMessage();
 }
 
-session_start();
+
 $_SESSION['msg']='' ;
 $_SESSION['err']=0 ;
-if (isset($_SESSION['AdmID'])) {
-    header('Location: admin/AdmIndex.php'); // Redirect To Dashboard Page
-}
-if (isset($_SESSION['ownID'])) {
-    header('Location:owner/OwnIndex.php');  // Redirect To Dashboard Page
-}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
   {
 if(isset($_POST["signin"]))
@@ -32,38 +28,51 @@ if(isset($_POST["signin"]))
     $pass=$_POST["pass"];
     #Check if the user is Admin 
     
-    $stmt = $con->prepare("SELECT * FROM admin WHERE (admEmail='$user' or admPhone='$user')AND admPassword='$pass'; ");
+    $stmt = $con->prepare("SELECT * FROM admin WHERE (AdmEmail='$user' or AdmPhone='$user')AND AdmPassword='$pass'; ");
     $stmt->execute(array($username, $password));
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count > 0)
-    {
-        $_SESSION['userName'] = $row['admName'];
-        $_SESSION['userEmail'] = $row['admEmail'];
-        $_SESSION['AdmID'] = $row['admID'];
+    {   
+        $_SESSION['AdmID'] = $row['AdmID'];
+        $_SESSION['AdmName'] = $row['AdmName'];
+        $_SESSION['AdmEmail'] = $row['AdmEmail'];
+        
         header('Location: admin/AdmIndex.php');
         exit();
     }else
     {
         
         #Check if the user is Owner
-        $stmt = $con->prepare("SELECT * FROM owner WHERE (ownEmail='$user' or ownPhone='$user')AND ownPassword='$pass'; ");
+        $stmt = $con->prepare("SELECT * FROM owner WHERE (OwnEmail='$user' or OwnPhone='$user')AND OwnPassword='$pass'; ");
         $stmt->execute(array($username, $password));
         $row = $stmt->fetch();
         $count = $stmt->rowCount();
     if ($count > 0)
         {
-            $_SESSION['userName'] = $row['ownName'];
-            $_SESSION['userEmail'] = $row['ownEmail'];
-            $_SESSION['ownID'] = $row['ownID'];
-            header('Location: owner/OwnIndex.php');
-            exit();
+            if($row["OwnActive"]==0) # owner account  is deactive 
+            {
+                $_SESSION['err'] = 1;
+                $_SESSION['msg']= "Your Email is Deactive ";
+                $_SESSION['color']="warning";
+                header('Location:index.php'); 
+                exit();
+            }else
+            {
+                $_SESSION['ownName'] = $row['OwnName'];
+                $_SESSION['ownEmail'] = $row['OwnEmail'];
+                $_SESSION['ownID'] = $row['OwnID'];
+                header('Location: owner/OwnIndex.php');
+                exit(); 
+            }
+            
         }
         # Not user or owner
         else
         {
             $_SESSION['err'] = 1 ;
             $_SESSION['msg']= "Invalid username or password !";
+            $_SESSION['color']="danger";
             header('Location:index.php'); 
             exit();
         }

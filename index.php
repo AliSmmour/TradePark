@@ -1,11 +1,7 @@
-
-<?php 
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
+    <?php session_start();?>
         <title>TradeParks</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
@@ -37,20 +33,21 @@ session_start();
 background-size : cover ; ">
             <div class="container-login100">
 			    <div class="wrap-login100">
-				    <form class="login100-form" action="signinProcess.php" method="post">
+				    <form class="login100-form" action="signinprocess.php" method="post">
                         <span class="login100-form-title p-b-26"> Sign In</span>
                         <?php 
                             if (isset($_SESSION['err'])){
-                                if ($_SESSION['err']==1 )
+                                if ($_SESSION['err']==1)
                                 {
                                 ?>
-                                    <div class="alert alert-danger alert-dismissable" >
+                                    <div class="alert alert-<?php echo $_SESSION['color'] ;?> alert-dismissable" >
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    Invalid Username or password ! 
+                                    <?php echo $_SESSION['msg'];?>
                                     </div>
                         <?php
                             $_SESSION['err']=0 ;
                             $_SESSION['msg']='' ;
+                            $_SESSION['color']='' ;
                                 }
                             }
         

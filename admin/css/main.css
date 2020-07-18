@@ -1,10 +1,5 @@
 html { scroll-behavior: smooth;}
 
-input::-webkit-outer-spin-button, /*to hide the arrow from input with type number */
-input::-webkit-inner-spin-button {
- -webkit-appearance: none;
- margin: 0;
-}
 
 
 
