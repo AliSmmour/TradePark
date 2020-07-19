@@ -1,6 +1,10 @@
 html { scroll-behavior: smooth;}
 
-
+input::-webkit-outer-spin-button, /*to hide the arrow from input with type number */
+input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ margin: 0;
+}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -62,13 +66,16 @@ html { scroll-behavior: smooth;}
       outline: none;
       border: none;
   }
-  
+  select {
+    outline: none;
+    border: none;
+  }
   textarea {
     outline: none;
     border: none;
   }
   
-  textarea:focus, input:focus {
+  textarea:focus, input:focus, select:focus {
     border-color: transparent !important;
   }
   
@@ -76,7 +83,12 @@ html { scroll-behavior: smooth;}
   input:focus:-moz-placeholder { color:transparent; }
   input:focus::-moz-placeholder { color:transparent; }
   input:focus:-ms-input-placeholder { color:transparent; }
-  
+    
+  select:focus::-webkit-input-placeholder { color:transparent; }
+  select:focus:-moz-placeholder { color:transparent; }
+  select:focus::-moz-placeholder { color:transparent; }
+  select:focus:-ms-input-placeholder { color:transparent; }
+
   textarea:focus::-webkit-input-placeholder { color:transparent; }
   textarea:focus:-moz-placeholder { color:transparent; }
   textarea:focus::-moz-placeholder { color:transparent; }
@@ -86,6 +98,12 @@ html { scroll-behavior: smooth;}
   input:-moz-placeholder { color: #adadad;}
   input::-moz-placeholder { color: #adadad;}
   input:-ms-input-placeholder { color: #adadad;}
+
+  
+  select::-webkit-input-placeholder { color: #adadad;}
+  select:-moz-placeholder { color: #adadad;}
+  select::-moz-placeholder { color: #adadad;}
+  select:-ms-input-placeholder { color: #adadad;}
   
   textarea::-webkit-input-placeholder { color: #adadad;}
   textarea:-moz-placeholder { color: #adadad;}

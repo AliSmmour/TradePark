@@ -6,6 +6,17 @@
     }
 </style>
 <?php include "connection.php"; ?>
+<?php
+if (isset($_SESSION['AdmID'])) {
+    header('Location: admin/AdmIndex.php'); // Redirect To Dashboard Page
+  }
+
+
+  if (isset($_SESSION['ownID'])) {
+    header('Location: owner/OwnIndex.php');  // Redirect To Dashboard Page
+  }
+
+?>
 <nav class="navbar navbar-light " role="navigation" style="background-color: #fff;">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
