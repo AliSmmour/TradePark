@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
 
 if (empty($_SESSION['AdmID'])) {
     header('location:../index.php');

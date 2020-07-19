@@ -2,33 +2,35 @@
 <!DOCTYPE html>
 <html>
     <?php 
-        function owner_info($conn)
+        function Employee_info($conn)
         {
             $table='';
-            $records="SELECT * FROM owner own ,admin adm where adm.admid = own.admid Order by ownActive DESC,ownName ASC";
+            $records="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp ,branch br,owner own ,admin adm 
+            where emp.BID=br.bID and emp.AdmID=adm.AdmID and br.ownId =own.ownId
+            Order by BName ASC,EmpActive DESC,EmpName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 
             if(mysqli_num_rows($result)>0)
             {
                 while($row=mysqli_fetch_assoc($result))
                 {
-                    $own_id=$row['OwnID'];
+                    $emp_id=$row['EmpID'];
                     $table.="<tr>";
-                    if ($row["OwnActive"]==0)
+                    if ($row["EmpActive"]==0)
                     {
                         $table.= "<td style='background-color:#ff6767' title='".$row['AdmName']."'>".$c." </td>";
                     }else{
                         $table.= "<td>".$c." </td>";
                     }
-                    $table.= "<td>".$row['OwnName']." </td>";
-                    $table.= "<td>".$row['OwnEmail']." </td>";
-                    $table.= "<td>".$row['OwnPhone']." </td>";
+                    $table.= "<td>".$row['EmpName']." </td>";
+                    $table.= "<td>".$row['EmpPhone']." </td>";
+                    $table.= "<td>".$row['BName']." - ".$row['OwnName']." </td>";
                     $table.= "<td>
                     <!-- Button trigger modal -->
-                    <button name='edit' id='$own_id' class='btn btn-success edit_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-edit'></i>
+                    <button name='edit' id='$emp_id' class='btn btn-success edit_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-edit'></i>
                     Edit
                     </button>
-                    <button name='view' id='$own_id' class='btn btn-info view_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-eye'></i>
+                    <button name='view' id='$emp_id' class='btn btn-info view_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-eye'></i>
                         View
                     </button>
                 </td>
@@ -40,7 +42,7 @@
         }
     ?>
     <head>
-        <title>Admin Owners_screen</title>
+        <title>Admin employees-screen</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="author" content="Ali Sammour">
@@ -79,9 +81,9 @@
         <div id="page-wrapper" style="margin: 2%;">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Owners <small>owner information</small></h1>
+                    <h1>Employees <small>Employee information</small></h1>
                     <ol class="breadcrumb">
-                        <li class="active"><i class="fas fa-user"></i> Owners</li>
+                        <li class="active"><i class="fas fa-users"></i> Employees</li>
                     </ol>
                 </div>
             </div><!-- /.row -->
@@ -90,11 +92,11 @@
             <div class="col-lg-12" >
                 <div class="panel panel-orange">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-user"></i> Owners</h3>
+                        <h3 class="panel-title"><i class="fa fa-users"></i> Employees</h3>
                     </div>
                     <div class="panel-body" >
                         <div class="col-lg-12">
-                            <h2>View Owners </h2>
+                            <h2>View Employees </h2>
                         </div>
                         <div class="table-responsive">
                             <div class="form-group has-orange"> <label for="searchdata">Search here </label> <input id="searchdata" type="text" name="searchdata" class="form-control " autocomplete="off" autofocus="autofocus">
@@ -102,10 +104,10 @@
                                 <table class="table table-bordered table-hover table-striped tablesorter">
                                     <thead>
                                         <tr>
-                                            <th>#</th> <th>Name</th> <th>Email</th> <th>Phone</th> <th>Action</th>
+                                            <th>#</th> <th>Name</th> <th>Phone</th> <th title="Branch - Owner"> Work in</th> <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table"> <?php echo owner_info($conn); ?> </tbody>
+                                    <tbody id="table"> <?php echo Employee_info($conn); ?> </tbody>
                                 </table>
                             </div>
                         </div>
@@ -123,7 +125,7 @@
             $('#searchdata').keyup(function(){
             var search_key = $(this).val() ;  
             $.ajax({       
-                url:"load_search_owners.php", 
+                url:"load_search_Employees.php", 
                 method:"POST",
                 data:{search_key:search_key}, 
                 success:function(data){
@@ -156,9 +158,9 @@
             <div class="modal-content">  
                 <div class="modal-header remove" >  
                     <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                    <h4 class="modal-title">Owners Details</h4>  
+                    <h4 class="modal-title">Employees Details</h4>  
                 </div>  
-                <div class="modal-body" id="owner_detail">  
+                <div class="modal-body" id="Employee_detail">  
                 </div>  
                 <div class="modal-footer">  
                     <button type="button" class="btn btn-info btn-lg btn-block" onclick="window.print();"><i class="fas fa-print"> Print</i></button>  
@@ -170,15 +172,15 @@
     <script>
         $(document).ready(function(){
         $(document).on('click', '.view_data_btn', function(){  
-            var owner_id = $(this).attr("id");  
-            if(owner_id != '')  
+            var Employee_id = $(this).attr("id");  
+            if(Employee_id != '')  
             {  
                 $.ajax({  
-                    url:"view_selected_owner.php",  
+                    url:"view_selected_Employees.php",  
                     method:"POST",  
-                    data:{owner_id:owner_id},  
+                    data:{Employee_id:Employee_id},  
                         success:function(data){  
-                            $('#owner_detail').html(data);  
+                            $('#Employee_detail').html(data);  
                             $('#view').modal('show');  
                         }  
                     });  
@@ -199,10 +201,10 @@
             <div class="modal-content">  
                 <div class="modal-header">  
                     <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                    <h4 class="modal-title">Edit Owner Information </h4>  
+                    <h4 class="modal-title">Edit Employee Information </h4>  
                 </div>  
-                <div class="modal-body" id="owner_detail">
-                    <form action="owner_save_changes.php" method="post">
+                <div class="modal-body" id="Employee_detail">
+                    <form action="Employees_save_changes.php" method="post">
                         <div id="edit_form">
                         </div><br>
                             <input type="submit" name="edit_btn" value="Save Changes" class="btn btn-success btn-lg btn-block">
@@ -218,13 +220,13 @@
     <script>
         $(document).ready(function(){
             $(document).on('click', '.edit_data_btn', function(){  
-                var owner_id = $(this).attr("id");  
-                if(owner_id != '')  
+                var employee_id = $(this).attr("id");  
+                if(employee_id != '')  
                 {  
                     $.ajax({  
-                        url:"edit_selected_onwers.php",  
+                        url:"edit_selected_employees.php",  
                         method:"POST",  
-                        data:{owner_id:owner_id},  
+                        data:{employee_id:employee_id},  
                         success:function(data){  
                             $('#edit_form').html(data);  
                             $('#edit').modal('show');  

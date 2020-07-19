@@ -2,33 +2,33 @@
 <!DOCTYPE html>
 <html>
     <?php 
-        function owner_info($conn)
+        function branch_info($conn)
         {
             $table='';
-            $records="SELECT * FROM owner own ,admin adm where adm.admid = own.admid Order by ownActive DESC,ownName ASC";
+            $records="SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName
+            FROM branch br , owner own ,Admin adm
+            WHERE br.OwnID=own.OwnID and own.AdmID=adm.ADmID
+            Order by BActive DESC,OwnName ASC ,BName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 
             if(mysqli_num_rows($result)>0)
             {
                 while($row=mysqli_fetch_assoc($result))
                 {
-                    $own_id=$row['OwnID'];
+                    $b_id=$row['BID'];
                     $table.="<tr>";
-                    if ($row["OwnActive"]==0)
+                    if ($row["BActive"]==0)
                     {
                         $table.= "<td style='background-color:#ff6767' title='".$row['AdmName']."'>".$c." </td>";
                     }else{
                         $table.= "<td>".$c." </td>";
                     }
-                    $table.= "<td>".$row['OwnName']." </td>";
-                    $table.= "<td>".$row['OwnEmail']." </td>";
-                    $table.= "<td>".$row['OwnPhone']." </td>";
+                    $table.= "<td>".$row['BName']." </td>";
+                    $table.= "<td>".$row['Bphone']." </td>";
+                    $table.= "<td>".$row['OwnName']."    ". $row['OwnPhone']."</td>";
                     $table.= "<td>
                     <!-- Button trigger modal -->
-                    <button name='edit' id='$own_id' class='btn btn-success edit_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-edit'></i>
-                    Edit
-                    </button>
-                    <button name='view' id='$own_id' class='btn btn-info view_data_btn btn-block' style='width:47% ;display:inline-block'><i class='fas fa-eye'></i>
+                    <button name='view' id='$b_id' class='btn btn-info view_data_btn btn-block' ><i class='fas fa-eye'></i>
                         View
                     </button>
                 </td>
@@ -40,7 +40,7 @@
         }
     ?>
     <head>
-        <title>Admin Owners_screen</title>
+        <title>Admin Branchs_screen</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="author" content="Ali Sammour">
@@ -63,25 +63,13 @@
 
     </head>
     <body>
-        <?php
-            #To show aert after operation (edit )
-            if ($_SESSION['err']==1) {
-                echo '<script> swal("","Update Successfully","success") </script>';
-                $_SESSION['err']=0 ;
-            }elseif ($_SESSION['err']==2) {
-                $msg= $_SESSION['msg'] ;
-                echo '<script> swal("Error","'.$msg.'","error") </script>';
-                $_SESSION['err']=0 ;
-                $_SESSION['msg']='';
-            }
-        ?>
         <?php include "navbar.php" ?>
         <div id="page-wrapper" style="margin: 2%;">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Owners <small>owner information</small></h1>
+                    <h1>Branches <small>Branch information</small></h1>
                     <ol class="breadcrumb">
-                        <li class="active"><i class="fas fa-user"></i> Owners</li>
+                        <li class="active"><i class="fas fa-user"></i> Branches</li>
                     </ol>
                 </div>
             </div><!-- /.row -->
@@ -90,11 +78,11 @@
             <div class="col-lg-12" >
                 <div class="panel panel-orange">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-user"></i> Owners</h3>
+                        <h3 class="panel-title"><i class="fas fa-store"></i> Branches</h3>
                     </div>
                     <div class="panel-body" >
                         <div class="col-lg-12">
-                            <h2>View Owners </h2>
+                            <h2>View Branches </h2>
                         </div>
                         <div class="table-responsive">
                             <div class="form-group has-orange"> <label for="searchdata">Search here </label> <input id="searchdata" type="text" name="searchdata" class="form-control " autocomplete="off" autofocus="autofocus">
@@ -102,10 +90,10 @@
                                 <table class="table table-bordered table-hover table-striped tablesorter">
                                     <thead>
                                         <tr>
-                                            <th>#</th> <th>Name</th> <th>Email</th> <th>Phone</th> <th>Action</th>
+                                            <th>#</th> <th>Name</th> <th>Phone</th> <th>Owner Detail</th> <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table"> <?php echo owner_info($conn); ?> </tbody>
+                                    <tbody id="table"> <?php echo branch_info($conn); ?> </tbody>
                                 </table>
                             </div>
                         </div>
@@ -123,7 +111,7 @@
             $('#searchdata').keyup(function(){
             var search_key = $(this).val() ;  
             $.ajax({       
-                url:"load_search_owners.php", 
+                url:"load_search_branches.php", 
                 method:"POST",
                 data:{search_key:search_key}, 
                 success:function(data){
@@ -156,9 +144,9 @@
             <div class="modal-content">  
                 <div class="modal-header remove" >  
                     <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                    <h4 class="modal-title">Owners Details</h4>  
+                    <h4 class="modal-title">Branches Details</h4>  
                 </div>  
-                <div class="modal-body" id="owner_detail">  
+                <div class="modal-body" id="branch_detail">  
                 </div>  
                 <div class="modal-footer">  
                     <button type="button" class="btn btn-info btn-lg btn-block" onclick="window.print();"><i class="fas fa-print"> Print</i></button>  
@@ -170,15 +158,15 @@
     <script>
         $(document).ready(function(){
         $(document).on('click', '.view_data_btn', function(){  
-            var owner_id = $(this).attr("id");  
-            if(owner_id != '')  
+            var branch_id = $(this).attr("id");  
+            if(branch_id != '')  
             {  
                 $.ajax({  
-                    url:"view_selected_owner.php",  
+                    url:"view_selected_branches.php",  
                     method:"POST",  
-                    data:{owner_id:owner_id},  
+                    data:{branch_id:branch_id},  
                         success:function(data){  
-                            $('#owner_detail').html(data);  
+                            $('#branch_detail').html(data);  
                             $('#view').modal('show');  
                         }  
                     });  
@@ -189,52 +177,6 @@
 
 <!-----------------------------End view Modal ----------------------->
 
-
-
-<!-----------------------------Start Edit modal------------------------->
-
-
-    <div id="edit" class="modal fade">  
-        <div class="modal-dialog">  
-            <div class="modal-content">  
-                <div class="modal-header">  
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                    <h4 class="modal-title">Edit Owner Information </h4>  
-                </div>  
-                <div class="modal-body" id="owner_detail">
-                    <form action="owner_save_changes.php" method="post">
-                        <div id="edit_form">
-                        </div><br>
-                            <input type="submit" name="edit_btn" value="Save Changes" class="btn btn-success btn-lg btn-block">
-                    </form>
-                </div>  
-                <div class="modal-footer">  
-                </div>  
-            </div>  
-        </div>  
-    </div>  
-
-
-    <script>
-        $(document).ready(function(){
-            $(document).on('click', '.edit_data_btn', function(){  
-                var owner_id = $(this).attr("id");  
-                if(owner_id != '')  
-                {  
-                    $.ajax({  
-                        url:"edit_selected_onwers.php",  
-                        method:"POST",  
-                        data:{owner_id:owner_id},  
-                        success:function(data){  
-                            $('#edit_form').html(data);  
-                            $('#edit').modal('show');  
-                        }  
-                    });  
-                }            
-            });  
-        });
-    </script>
-<!-----------------------------End Edit modal------------------------->
 
 
 </html>

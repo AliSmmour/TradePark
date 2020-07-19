@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -186,12 +187,12 @@
                             ],
                         ]);
                     var piechart_options = {title:'Pie Chart: How Much Trainers, Trainee And Course in YULMS DB ',
-                        width:620,
+                        width:520,
                         height:300};
                         var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
                         piechart.draw(data, piechart_options);
                         var barchart_options = {title:'Barchart:How Much Trainers, Trainee And Course in YULMS DB',
-                            width:620,
+                            width:520,
                             height:300,
                             legend: 'none'};
                         var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));

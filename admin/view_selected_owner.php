@@ -51,20 +51,17 @@
     while($row2 = mysqli_fetch_assoc($result2))  
     {    $b_id= $row2["BID"];
         $output.='<tr>  
-                    <td width="30%">'.$row2["BName"].'</td>
-                    <td width="70%"> ';
+                    <td ></td>
+                    <td><b>'.$row2["BName"].'<b> </td>
+                <tr>';
             $query3 = "SELECT EmpName FROM Branch br , Employee emp , Owner own 
             WHERE br.BID=emp.BID and br.OwnID=own.OwnID and br.BID='".$b_id."' and own.OwnID='".$_POST["owner_id"]."'
             ORDER by EmpName";
             $result3 = mysqli_query($conn, $query3); 
             while($row3 = mysqli_fetch_assoc($result3))  
             {  
-                $output .= '  '.$row3["EmpName"].'  <br>';  
+                $output .= ' <tr><td></td> <td class="text-center"> '.$row3["EmpName"].'  </td></tr>';  
             }  
-            $output .= ' 
-                <hr>
-                </td> 
-                </tr>';
     }  
     $output .= ' 
     </td> 
