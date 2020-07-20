@@ -19,11 +19,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css">
-
+        
     </head>
     <body>
         
         <?php include "navbar.php" ?>
+        <?php "connection.php"?>
        
         <div class="limiter" style=" background:url('img/bg1.jpg') no-repeat top center ;
 -webkit-background-size : cover ;
@@ -81,13 +82,20 @@ background-size : cover ; ">
 						    <input class="input100" type="number" name="phone" id="phone" placeholder="07[7,8,9]######" required="required" minlength="10" maxlength="10">
 						    <span class="focus-input100"></span>
                         </div>
-                        <div class="wrap-input100 ">
-						    <input type="file" name="pic" id="pic" required="required">
-					    </div>
+                        <div class="wrap-input100 " >
+                        <input class="input100" type="file" name="pic" id="pic" required title="Upload your Image">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div >
+                            <input type="hidden" name="loc" id="loc" >
+                        </div>
+                        <!--map -->
+ 					    <iframe src="maps.php" width="100%" height="60%" name="loaded_map"></iframe>
+                        <!--End Map-->
 					    <div class="container-login100-form-btn">
 						    <div class="wrap-login100-form-btn">
 							    <div class="login100-form-bgbtn logbtn"></div>
-							    <input type="submit" class="login100-form-btn" name="reg" value="Sign Up">
+							    <input type="submit" class="login100-form-btn" name="reg" id="reg"  value="Sign Up">
 						    </div>
 					    </div>
 
@@ -140,3 +148,41 @@ background-size : cover ; ">
         <?php include "footer.php" ?>
     </body>
 </html>
+<script>
+	$(function(){
+    $("#reg").mouseenter(function() {
+        var getAddress = $("iframe[name=loaded_map]").contents().find("#iloc").val();
+        document.getElementById("loc").value = getAddress;
+    });
+});
+</script>
+
+<?php 
+    if (isset($_POST['reg']))
+    {
+        $Name=$_POST['name'];
+        $Email=$_POST['email'];
+        $Password=$_POST['pass'];
+        $Phone=$_POST['phone'];
+        $Own_pic= addslashes(file_get_contents($_FILES["pic"]["tmp_name"]));
+        $Location=$_POST['loc'];
+        $removing = preg_replace("/[A-Z a-z \( \)]/","",$Location); 
+        $ll = (explode(",",$removing));
+        $lan=$ll[0];
+        $lat=$ll[1];
+
+        $sql="INSERT INTO `owner` (`OwnName`, `OwnEmail`, `OwnPassword`, `OwnPhone`, `OwnPic`, `OwnActive`, `OwnLat`, `OwnLng`) 
+                VALUES ('$Name', '$Email', '$Password','$Phone', '$Own_Pic','1', '$lat','$lan');";
+        $result=mysqli_query($conn,$sql);
+        if ($result) 
+        {
+            echo '<script >swal( "" ,  "Registration successfully!" ,  "success" );</script>';
+        }else
+        {
+            $err=mysqli_error($conn);
+            echo '<script > swal( "Error" ,  "'.mysqli_error($conn).'" ,  "error" ); </script>';
+        }
+
+    }
+    mysqli_close($conn);
+?>

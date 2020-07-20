@@ -8,12 +8,12 @@ if(isset($_POST["search_key"]))
 	if ($_POST['search_key'] !='')
 	{
 		$sql="SELECT * FROM owner own,admin adm
-        WHERE adm.admid=own.admid and (OwnName like '%$sdata%'|| OwnEmail like '%$sdata%'||OwnPhone like'%$sdata%')
+        WHERE (own.AdmID=adm.AdmID or own.AdmID is null) and (OwnName like '%$sdata%'|| OwnEmail like '%$sdata%'||OwnPhone like'%$sdata%')
         Order by ownActive DESC,ownName ASC" ;
 	}
 	else
 	{
-		$sql = "SELECT * FROM owner own ,admin adm where adm.admid = own.admid Order by ownActive DESC,ownName ASC";
+		$sql = "SELECT * FROM owner own ,admin adm where (own.AdmID=adm.AdmID or own.AdmID is null) Order by ownActive DESC,ownName ASC";
 	}
 	$result = mysqli_query($conn,$sql) ; 
 	if(mysqli_num_rows($result)<1)

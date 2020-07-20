@@ -70,7 +70,7 @@
 						                <span class="focus-input100"></span>
 					                </div>
 					                <div class="wrap-input100 ">
-						                <input class="input100" type="file" name="pic" id="pic" require>
+						                <input class="input100" type="file" name="pic" id="pic" required>
 						                <span class="focus-input100"></span>
                                     </div>
                                     <div class="wrap-input100 ">
@@ -152,7 +152,7 @@
         $Emp_name=$_POST["Employee_name"];
         $Emp_phone=$_POST["Employee_phone"];
         $Emp_br=$_POST["Employee_branch"];
-        $Emp_pic= addslashes(file_get_contents($_FILES["pic"]["tmp_name"]));   ;
+        $Emp_pic= addslashes(file_get_contents($_FILES["pic"]["tmp_name"]));
         $insert = "INSERT INTO Employee (EmpName,EmpPhone,EmpPic,BID,EmpActive)
                     VALUES ('$Emp_name','$Emp_phone','$Emp_pic','$Emp_br','1')";
         $result=mysqli_query($conn,$insert);
@@ -161,8 +161,7 @@
             echo '<script> swal( "" ,  "Add successfully!" ,  "success" ); </script>';
         }else
         {
-          $err=mysqli_error($conn);
-      
+            $err=mysqli_error($conn);
         echo ' <script> swal( "Error" ,  "'.$err.'" ,  "error" );  </script>';
         }
       

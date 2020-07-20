@@ -8,14 +8,14 @@ if(isset($_POST["search_key"]))
 	if ($_POST['search_key'] !='')
 	{
 		$sql="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp ,branch br,owner own ,admin adm 
-        where emp.BID=br.bID and emp.AdmID=adm.AdmID and br.ownId =own.ownId
+        where emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and br.ownId =own.ownId
         and (OwnName like '%$sdata%'|| EmpName like '%$sdata%'||EmpPhone like'%$sdata%'||BName like'%$sdata%')
         Order by BName ASC,EmpActive DESC,EmpName ASC" ;
 	}
 	else
 	{
 		$sql = "SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp ,branch br,owner own ,admin adm 
-        where emp.BID=br.bID and emp.AdmID=adm.AdmID and br.ownId =own.ownId
+        where emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and br.ownId =own.ownId
         Order by BName ASC,EmpActive DESC,EmpName ASC";
 	}
 	$result = mysqli_query($conn,$sql) ; 

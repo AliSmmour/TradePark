@@ -6,7 +6,7 @@
         {
             $table='';
             $records="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp ,branch br,owner own ,admin adm 
-            where emp.BID=br.bID and emp.AdmID=adm.AdmID and br.ownId =own.ownId
+            where emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and br.ownId =own.ownId
             Order by BName ASC,EmpActive DESC,EmpName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 

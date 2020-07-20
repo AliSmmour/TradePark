@@ -1863,6 +1863,33 @@ select[multiple].input-lg {
 .has-success .form-control-feedback {
   color: #3c763d;
 }
+
+.has-orange .help-block,
+.has-orange .control-label,
+.has-orange .radio,
+.has-orange .checkbox,
+.has-orange .radio-inline,
+.has-orange .checkbox-inline {
+  color: #F8931F;
+}
+.has-orange .form-control {
+  border-color: #F8931F;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-orange .form-control:focus {
+  border-color: #F8931F;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+}
+.has-orange .input-group-addon {
+  color: #F8931F;
+  background-color: #dff0d8;
+  border-color: #F8931F;
+}
+.has-orange .form-control-feedback {
+  color: #F8931F;
+}
 .has-warning .help-block,
 .has-warning .control-label,
 .has-warning .radio,
@@ -3767,9 +3794,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-top: 8px;
   margin-right: 15px;
   margin-bottom: 8px;
-  background-color: transparent;
+  background-color: #F8931F;
   background-image: none;
-  border: 1px solid transparent;
+  border: 1px solid #F8931F;
   border-radius: 4px;
 }
 .navbar-toggle:focus {
@@ -3780,9 +3807,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   width: 22px;
   height: 2px;
   border-radius: 1px;
+  background-color: #fff;
 }
 .navbar-toggle .icon-bar + .icon-bar {
   margin-top: 4px;
+  background-color: #fff;
 }
 @media (min-width: 768px) {
   .navbar-toggle {
@@ -3884,6 +3913,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
   .navbar-form .has-feedback .form-control-feedback {
     top: 0;
+    
   }
 }
 @media (max-width: 767px) {
@@ -4460,6 +4490,12 @@ a.thumbnail.active {
   right: -21px;
   color: inherit;
 }
+.alert-orange {
+  color: black;
+  background-color: #FCC98F;
+  border-color: black;
+}
+
 .alert-success {
   color: #3c763d;
   background-color: #dff0d8;
@@ -4987,8 +5023,16 @@ a.list-group-item-danger.active:focus {
 .panel-primary > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #428bca;
 }
+.panel-orange {
+  border-color: #FCC98F;
+}
 .panel-success {
   border-color: #339966;
+}
+.panel-orange > .panel-heading {
+  color: white;
+  background-color:#F8931F;
+  border-color: #d6e9c6;
 }
 .panel-success > .panel-heading {
   color: white;
