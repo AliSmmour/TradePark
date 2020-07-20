@@ -133,6 +133,7 @@
         .modal-body {font-size: 16pt  ;width: 100% ; height: 100%;}
         .panel-orange > .panel-heading { background-color: #F8931F !important; }
         a { color:blue !important; padding: 0; }
+        iframe {width: 100%;}
         #view ,.modal-content ,div ,.table-responsive { border: none; overflow: hidden; }    
     }
 </style>

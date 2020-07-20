@@ -13,9 +13,11 @@
                     <center> <img src="img/TradePark3.png"  alt="" style="width: 7rem; height:7rem;"> </center>
                 </div>
             <div class="panel-body">
-                <table>';  
+                <table width="100%">';  
                 while($row = mysqli_fetch_assoc($result))  
                 {  
+                    $latitude = $row["OwnLat"];
+                    $longitude = $row["OwnLng"];
                     $output .= '  
                         <tr>
                             <td colspan="2"><center>
@@ -34,9 +36,10 @@
                             <td width="30%"><label>Owner Phone :</label></td>  
                             <td width="70%">   '.$row["OwnPhone"].'</td>
                         </tr>
-                        <tr>  
-                            <td width="30%"><label>Owner Address : </label></td>  
-                            <td width="70%">  Later </td>
+                        <tr>   
+                            <td colspan="3" height="20%">
+                            <iframe  class="text-center"id="map" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0" src="https://maps.google.com/maps?q='.$latitude.','. $longitude.'&output=embed"></iframe>
+                            </td>
                         </tr>
                     ';  
                 }  
