@@ -82,9 +82,9 @@ background-size : cover ; ">
 						    <input class="input100" type="number" name="phone" id="phone" placeholder="07[7,8,9]######" required="required" minlength="10" maxlength="10">
 						    <span class="focus-input100"></span>
                         </div>
-                        <div class="wrap-input100 " >
-                        <input class="input100" type="file" name="pic" id="pic" required title="Upload your Image">
-                            <span class="focus-input100"></span>
+                        <div class="wrap-input100 ">
+						        <input class="input100" type="file" name="pic" id="pic" required>
+						        <span class="focus-input100"></span>
                         </div>
                         <div >
                             <input type="hidden" name="loc" id="loc" >
@@ -171,8 +171,8 @@ background-size : cover ; ">
         $lan=$ll[0];
         $lat=$ll[1];
 
-        $sql="INSERT INTO `owner` (`OwnName`, `OwnEmail`, `OwnPassword`, `OwnPhone`, `OwnPic`, `OwnActive`, `OwnLat`, `OwnLng`) 
-                VALUES ('$Name', '$Email', '$Password','$Phone', '$Own_Pic','1', '$lat','$lan');";
+        $sql="INSERT INTO OWNER (OwnPic,OwnName, OwnEmail, OwnPassword, OwnPhone,  OwnActive, OwnLat, OwnLng) 
+                VALUES ('$Own_pic','$Name', '$Email', '$Password','$Phone', '1', '$lat','$lan');";
         $result=mysqli_query($conn,$sql);
         if ($result) 
         {
