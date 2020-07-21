@@ -8,16 +8,15 @@ if(isset($_POST["search_key"]))
 	$sdata=$_POST["search_key"];
 	if ($_POST['search_key'] !='')
 	{
-		$sql="SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName
-        FROM branch br , owner own ,Admin adm
-        WHERE br.OwnID=own.OwnID and own.AdmID=adm.ADmID and br.ownID='".$_SESSION['ownID']."' and (OwnName like '%$sdata%'|| BName like '%$sdata%'||OwnPhone like'%$sdata%'||BPhone like'%$sdata%')
+		$sql="SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName 
+        FROM branch br , owner own LEFT JOIN Admin adm ON own.AdmID=adm.AdmID
+        WHERE br.OwnID=own.OwnID and br.ownID='".$_SESSION['ownID']."' and (OwnName like '%$sdata%'|| BName like '%$sdata%'||OwnPhone like'%$sdata%'||BPhone like'%$sdata%')
         Order by BActive DESC,OwnName ASC ,BName ASC" ;
 	}
 	else
 	{
-		$sql = "SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName
-        FROM branch br , owner own ,Admin adm
-        WHERE br.OwnID=own.OwnID and own.AdmID=adm.ADmID and br.ownID='".$_SESSION['ownID']."'
+		$sql = "SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName FROM branch br , owner own LEFT JOIN Admin adm ON own.AdmID=adm.AdmID
+        WHERE br.OwnID=own.OwnID and br.ownID='".$_SESSION['ownID']."'
         Order by BActive DESC,OwnName ASC ,BName ASC";
 	}
 	$result = mysqli_query($conn,$sql) ; 

@@ -5,9 +5,8 @@
         function branch_info($conn)
         {
             $table='';
-            $records="SELECT BID,BName,Bphone,OwnName ,OwnPhone,AdmName
-            FROM branch br , owner own ,Admin adm
-            WHERE br.OwnID=own.OwnID and own.AdmID=adm.ADmID and br.ownID='".$_SESSION['ownID']."'
+            $records="SELECT BID,BName,Bphone,BActive,OwnName ,OwnPhone,AdmName FROM branch br , owner own LEFT JOIN Admin adm ON own.AdmID=adm.AdmID
+            WHERE br.OwnID=own.OwnID and br.ownID='".$_SESSION['ownID']."'
             Order by BActive DESC,OwnName ASC ,BName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 

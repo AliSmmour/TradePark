@@ -8,16 +8,14 @@ if(isset($_POST["search_key"]))
 	$sdata=$_POST["search_key"];
 	if ($_POST['search_key'] !='')
 	{
-		$sql="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,AdmName FROM employee emp ,branch br,admin adm 
-        where emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
+		$sql="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp LEFT JOIN admin adm ON emp.AdmID=adm.AdmID ,branch br,owner own 
+        where emp.BID=br.bID and br.ownId =own.ownId and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
         and (EmpName like '%$sdata%'||EmpPhone like'%$sdata%'||BName like'%$sdata%')
         Order by BName ASC,EmpActive DESC,EmpName ASC" ;
 	}
 	else
 	{
-		$sql = "SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,AdmName FROM employee emp ,branch br,admin adm 
-        where emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
-        Order by BName ASC,EmpActive DESC,EmpName ASC";
+		$sql = "SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,OwnName,AdmName FROM employee emp LEFT JOIN admin adm ON emp.AdmID=adm.AdmID ,branch br,owner own where emp.BID=br.bID and br.ownId =own.ownId and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].") Order by BName ASC,EmpActive DESC,EmpName ASC";
 	}
 	$result = mysqli_query($conn,$sql) ; 
 	if(mysqli_num_rows($result)<1)

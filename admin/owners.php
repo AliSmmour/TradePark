@@ -5,7 +5,7 @@
         function owner_info($conn)
         {
             $table='';
-            $records="SELECT * FROM owner own ,admin adm where (own.AdmID=adm.AdmID or own.AdmID is null) Order by ownActive DESC,ownName ASC";
+            $records="SELECT * FROM owner own LEFT JOIN admin adm ON own.AdmID=adm.AdmID Order by ownActive DESC,ownName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 
             if(mysqli_num_rows($result)>0)

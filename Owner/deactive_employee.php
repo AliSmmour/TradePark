@@ -6,7 +6,7 @@
         {
             $table='';
             $records="SELECT EmpID , EmpName,EmpPhone,BName,AdmName FROM employee emp ,branch br,admin adm 
-            where EmpActive=0 and  emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
+            where EmpActive=0 and  emp.BID=br.bID and emp.AdmID=adm.AdmID and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
             Order by BName ASC,EmpActive DESC,EmpName ASC";
             $result = mysqli_query($conn,$records);
             $c = 1; 

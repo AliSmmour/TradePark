@@ -9,7 +9,7 @@ if(isset($_POST["search_key"]))
 	if ($_POST['search_key'] !='')
 	{
 		$sql="SELECT EmpID , EmpName,EmpPhone,EmpActive,BName,AdmName FROM employee emp ,branch br,admin adm 
-        where EmpActive=0 and emp.BID=br.bID and (emp.AdmID=adm.AdmID or emp.AdmID is null) and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
+        where EmpActive=0 and emp.BID=br.bID and emp.AdmID=adm.AdmID and emp.BID in (SELECT BID from branch WHERE ownID =".$_SESSION['ownID'].")
         and (EmpName like '%$sdata%'||EmpPhone like'%$sdata%'||BName like'%$sdata%')
         Order by BName ASC,EmpActive DESC,EmpName ASC" ;
 	}
@@ -22,7 +22,7 @@ if(isset($_POST["search_key"]))
 	$result = mysqli_query($conn,$sql) ; 
 	if(mysqli_num_rows($result)<1)
 	{
-	    $table.='<tr> <th colspan="5" class="text-center"> NO DATA FOUND </th> </tr> ' ;
+	    $table.='<tr> <th colspan="6" class="text-center"> NO DATA FOUND </th> </tr> ' ;
 	}else
 	{
         while($row=mysqli_fetch_assoc($result))
