@@ -59,10 +59,16 @@
 						                <input class="input100" type="number" name="branch_phone" id="phone" placeholder="07[7,8,9]######" required="required" minlength="10" maxlength="10">
 						                <span class="focus-input100"></span>
                                     </div>
+                                    <div >
+                                        <input type="hidden" name="loc" id="loc" >
+                                    </div>
+                                    <!--map -->
+ 					                <iframe src="maps.php" width="100%" height="60%" name="loaded_map"></iframe>
+                                    <!--End Map-->
 					                <div class="container-login100-form-btn">
 						                <div class="wrap-login100-form-btn">
 							                <div class="login100-form-bgbtn logbtn"></div>
-							                    <input type="submit" class="login100-form-btn" name="add" value="Add to List">
+							                    <input type="submit" class="login100-form-btn" name="add" id="add" value="Add to List">
 						                    </div>
 					                </div>
 					                <div class="text-center p-t-115">
@@ -101,3 +107,39 @@
 
 
 </html>
+<script>
+	$(function(){
+    $("#add").mouseenter(function() {
+        var getAddress = $("iframe[name=loaded_map]").contents().find("#iloc").val();
+        document.getElementById("loc").value = getAddress;
+    });
+});
+</script>
+
+<?php 
+    if (isset($_POST['add']))
+    {
+        $Name=$_POST['branch_name'];
+        $Phone=$_POST['branch_phone'];
+        $Location=$_POST['loc'];
+        $removing = preg_replace("/[A-Z a-z \( \)]/","",$Location); 
+        $ll = (explode(",",$removing));
+        $lan=$ll[0];
+        $lat=$ll[1];
+        $Owner=$_SESSION['ownID'];
+
+        $sql="INSERT INTO `branch` (`BName`, `BPhone`,`BActive`, `BLat`, `Blng`,`OwnID`) 
+                VALUES ('$Name','$Phone','1', '$lat','$lan','$Owner');";
+        $result=mysqli_query($conn,$sql);
+        if ($result) 
+        {
+            echo '<script >swal( "" ,  "Branch Add successfully!" ,  "success" );</script>';
+        }else
+        {
+            $err=mysqli_error($conn);
+            echo '<script > swal( "Error" ,  "'.mysqli_error($conn).'" ,  "error" ); </script>';
+        }
+
+    }
+    mysqli_close($conn);
+?>

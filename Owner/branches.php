@@ -103,6 +103,10 @@
                             <br>
                             <div>
                                 <a href="add_branche.php"><button class="btn btn-warning center">Add New Branch</button></a>
+                                <button class="btn btn-warning center"
+                                data-toggle="popover"
+                                data-html="true" data-content='<iframe src="Branches_map.php"  width="100%" height="100%"></iframe>'
+                                >View on map </button>
                             </div>
                             <br>
                                 <table class="table table-bordered table-hover table-striped tablesorter">
@@ -239,6 +243,12 @@
         });
     </script>
 <!-----------------------------End Edit modal------------------------->
-
-
+<!--Pop Over Script-->
+<script type="text/javascript">
+		$(document).ready(function(){
+						$('[data-toggle="popover"]').popover();
+						
+					});
+					
+	</script>
 </html>
